@@ -1,0 +1,10 @@
+.scroll-pane {
+    -fx-fit-to-height: true;
+    -fx-fit-to-width: true;
+    -fx-fill-height: true;
+    -fx-fill-width: true;
+    -fx-border-color: rgba(94, 75, 168, 0.75);
+    -fx-border-insets: 15 55 15 55;
+    -fx-min-height: 540px;
+    -fx-pref-height: 810px;
+}
