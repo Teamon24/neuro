@@ -12,7 +12,7 @@ fun main() {
     val N = 10
     val M = N
     val short = { Random.nextInt().toShort() }
-    val type = Type(initShort, Short::times, Short::minus, Short::plus)
+    val type = Type(initShort, {s1, s2 -> s1 * s2}, {s1, s2 -> s1 - s2}, {s1, s2 -> s1 + s2})
     val A = type.matrix(N)
     val B = type.matrix(N)
     Matrix2D.fill(short, A)
