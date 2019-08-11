@@ -1,15 +1,12 @@
 import com.home.neuro.NeuroConfigs;
 import com.home.neuro.WeightsMatrix;
 import com.home.utils.elements.DoubleMatrix2D;
-import com.home.utils.elements.Matrix2D;
-import com.home.utils.elements.Type;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.function.Supplier;
 
-import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Util.println;
+import static java.lang.System.out;
 
 /**
  *
@@ -26,11 +23,11 @@ public class Main {
     public static void main(String[] args) {
         NeuroConfigs configs = new NeuroConfigs(16, 5, 3);
         ArrayList<Integer> neuronsPerLayers = configs.getNeuronsPerMiddles();
-        println("${configs.firstsAmount} $neuronsPerLayers ${configs.outputsAmount}");
+        out.println("${configs.firstsAmount} $neuronsPerLayers ${configs.outputsAmount}");
         WeightsMatrix weights = emptyWeightsMatrix(configs);
         Integer i = 0; // 0 - входной с первым промежуточным.
         final DoubleMatrix2D doubleMatrix2D = weights.get(i);
-        println(doubleMatrix2D.toString());
+        out.println(doubleMatrix2D.toString());
          // вес между первым во входном и первым в первом промежуточном слое.
     }
 

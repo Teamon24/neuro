@@ -74,10 +74,9 @@ fun main() {
     val neuronsPerLayers = configs.neuronsPerMiddles
     println("""${configs.firstsAmount} $neuronsPerLayers ${configs.outputsAmount}""")
     val weights = emptyWeightsMatrix(configs)
-    val i = 0 // 0 - входной с первым промежуточным.
-    val (j, k) = 0 to 0 // первый во входном слое и первый в первом промежуточном слое.
-    weights[i][j][k] // вес между первым во входном и первым в первом промежуточном слое.
-
+    val i = 0 // 0 - i-ый слой весов.
+    val (j, k) = 0 to 0 // индексы для j-го нейрон и k-го нейрон в i-ом слое весов.
+    weights[i][j][k] // вес между j-ым во входном и первым в первом промежуточном слое.
 }
 
 

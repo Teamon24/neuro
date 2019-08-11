@@ -26,18 +26,18 @@ open class Matrix2D<T> : Typed<T> {
 
     private fun init() {
         (0 until this.rows).forEach { i ->
-            val vector = this.type.vector(this.cols)
+            val vector = super.type.vector(this.cols)
             (0 until this.cols).forEach { j ->
-                vector[j] = this.type.init()
+                vector[j] = super.type.init()
             }
-            this.elements[i] = vector
+            this.elements.add(i, vector)
         }
     }
 
     fun transpose(): Matrix2D<T> {
         val n = this.rows
         val m = this.cols
-        val C = this.type.matrix(m, n)
+        val C = super.type.matrix(m, n)
 
         for (i in 0 until n)
             for (j in 0 until m)

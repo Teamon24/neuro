@@ -3,11 +3,11 @@ package com.home.utils.elements
 /**
  *
  */
-class Type<T, R> (
+class Type<T> (
     val init:  (    ) -> T,
-    val plus:  (T, T) -> R,
-    val minus: (T, T) -> R,
-    val times: (T, T) -> R
+    val plus:  (T, T) -> T,
+    val minus: (T, T) -> T,
+    val times: (T, T) -> T
 ) {
     fun matrix(rows: Int, columns: Int) = Matrix2D(rows, columns, this)
     fun matrix(size: Int) = Matrix2D(size, this)

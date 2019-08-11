@@ -49,7 +49,7 @@ operator fun <T> Vector<T>.minus(vector: Vector<T>): Vector<T> {
 operator fun <T> Vector<T>.times(vector: Vector<T>): T {
     checkSizes(this, vector)
     var result: T? = null
-    for(i in 0 until this.size()) {
+    for(i in 0 until this.size) {
         val thisElement: T = this[i]
         val vectorElement: T = vector[i]
         val times = thisElement * vectorElement
@@ -64,14 +64,14 @@ operator fun <T> Vector<T>.times(vector: Vector<T>): T {
 }
 
 fun <T> checkSizes(v1: Vector<T>, v2: Vector<T>) {
-    if (v1.size() != v2.size()) {
+    if (v1.size != v2.size) {
         throw RuntimeException("Vectors sizes are not equal!")
     }
 }
 
 private fun <T> reduce(reducer: KProperty0<(T, T) -> T>, v1: Vector<T>, v2: Vector<T>): Vector<T>
 {
-    val size = v1.size()
+    val size = v1.size
     val result: Vector<T> = v1.type.vector(size)
 
     for (i in 0 until size) {
