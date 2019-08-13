@@ -1,11 +1,15 @@
-package com.home.utils
+package com.home
 
-import com.home.utils.elements.type.IntType
+import com.home.utils.P
+import com.home.utils.S
 import com.home.utils.elements.type.Type
 import com.home.utils.elements.type.Typed
 import com.home.utils.operators.*
 import kotlin.collections.ArrayList
 
+/**
+ * N-dimensional matrix.
+ */
 class Matrix<T>(type: Type<T>, vararg sizes: Int) : Typed<T>(type) {
 
     private var size1D = P(sizes)
@@ -53,20 +57,7 @@ class Matrix<T>(type: Type<T>, vararg sizes: Int) : Typed<T>(type) {
     private fun throwRex(message: String): Nothing = throw RuntimeException(message)
 }
 
-fun main() {
-    val n = 3
-    val m = Matrix(IntType, n, n, n)
 
-    for (i in 9 until 12) m.set(1, i)
-
-    for (i in 0 until n) {
-        for (j in 0 until n) {
-            for (k in 0 until n) {
-                println("($i:$j:$k) = ${m.get(i, j, k)}")
-            }
-        }
-    }
-}
 
 
 
