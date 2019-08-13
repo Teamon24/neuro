@@ -1,5 +1,7 @@
 package com.home.utils.elements
 
+import com.home.utils.elements.type.Type
+import com.home.utils.elements.type.Typed
 import com.home.utils.operators.get
 import com.home.utils.operators.set
 
@@ -16,7 +18,8 @@ open class Vector<T> : Typed<T> {
     }
 
     constructor(vector: Vector<T>,
-                type: Type<T>) : super(type)
+                type: Type<T>
+    ) : super(type)
     {
         this.elements = vector.elements
         this.size = this.elements.size
@@ -24,7 +27,8 @@ open class Vector<T> : Typed<T> {
     }
 
     constructor(collection: Collection<T>,
-                type: Type<T>) : super(type)
+                type: Type<T>
+    ) : super(type)
     {
         this.elements = ArrayList(collection)
         this.size = this.elements.size

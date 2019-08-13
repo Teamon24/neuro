@@ -1,7 +1,8 @@
 package com.home.utils.elements
 
+import com.home.utils.elements.type.Type
+import com.home.utils.elements.type.Typed
 import com.home.utils.operators.get
-import com.home.utils.operators.row
 import com.home.utils.operators.set
 
 open class Matrix2D<T> : Typed<T> {

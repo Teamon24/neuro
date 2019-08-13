@@ -1,32 +1,9 @@
 package com.home.utils.elements
 
-/**
- *
- */
+import com.home.utils.elements.type.DoubleType
+
 class DoubleMatrix2D : Matrix2D<Double> {
-
-    constructor(rows: Int, cols: Int) :
-            super(
-                rows,
-                cols,
-                Type<Double>(
-                    { 0.0 },
-                    Double::plus,
-                    Double::minus,
-                    Double::times
-                )
-            )
-
-    constructor(size: Int) :
-            super(
-                size,
-                Type<Double>(
-                    { 0.0 },
-                    Double::plus,
-                    Double::minus,
-                    Double::times
-                )
-            )
-
+    constructor(rows: Int, cols: Int) : super(rows, cols, DoubleType)
+    constructor(size: Int) : super(size, DoubleType)
     override fun toString() = this.elements.toString()
 }

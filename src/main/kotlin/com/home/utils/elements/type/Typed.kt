@@ -1,4 +1,4 @@
-package com.home.utils.elements
+package com.home.utils.elements.type
 
 abstract class Typed<T>(val type: Type<T>) {
 

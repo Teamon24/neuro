@@ -13,7 +13,6 @@ fun<T> Matrix2D<T>.col(col: Int): Column<T> {
         column[i] = this[i][col]
     }
     return column
-
 }
 
 operator fun<T> Matrix2D<T>.get(index: Int): Vector<T> = this.elements[index]

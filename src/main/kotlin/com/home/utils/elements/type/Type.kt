@@ -1,9 +1,14 @@
-package com.home.utils.elements
+package com.home.utils.elements.type
+
+import com.home.utils.elements.Column
+import com.home.utils.elements.Matrix2D
+import com.home.utils.elements.Row
+import com.home.utils.elements.Vector
 
 /**
  *
  */
-class Type<T> (
+abstract class Type<T> (
     val init:  (    ) -> T,
     val plus:  (T, T) -> T,
     val minus: (T, T) -> T,
