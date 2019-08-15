@@ -1,17 +1,16 @@
 package com.home.neuro
 
-import com.home.utils.elements.DoubleMatrix2D
 import java.lang.RuntimeException
 import kotlin.math.round
 
-class Neurons(
-    val inNeuronsAmount: Int,
-    val middleLayersAmount: Int,
-    val outNeuronsAmount: Int
+class NeuronNet(
+    private val inNeuronsAmount: Int,
+    private val middleLayersAmount: Int,
+    private val outNeuronsAmount: Int
 ) {
-    val neuronsPerMiddles = arrayListOf<Int>()
-    val neuronsPerLayers = arrayListOf<Int>()
-    var weightsMatrix: WeightsMatrix<Double>
+    private val neuronsPerMiddles = arrayListOf<Int>()
+    private val neuronsPerLayers = arrayListOf<Int>()
+    var weights: Weights
     private val getStep = { layers: Int -> round(layers.toDouble() / middleLayersAmount).toInt() }
 
     init {
@@ -34,7 +33,7 @@ class Neurons(
         neuronsPerLayers.add(inNeuronsAmount)
         neuronsPerLayers.addAll(neuronsPerMiddles)
         neuronsPerLayers.add(outNeuronsAmount)
-        weightsMatrix = this.emptyWeightsMatrix()
+        weights = Weights(neuronsPerLayers.size, inNeuronsAmount, inNeuronsAmount)
     }
 
     private fun populateNeuronsPerMiddles(step: Int) {
@@ -64,20 +63,5 @@ class Neurons(
             this.neuronsPerMiddles.clear()
             this.neuronsPerMiddles.addAll(newNeuronsPerLayers)
         }
-    }
-
-    private fun emptyWeightsMatrix(): WeightsMatrix<Double> {
-        val neuronsPerLayers = neuronsPerLayers
-        val columns = neuronsPerLayers.size - 1
-
-        val weights: MutableList<DoubleMatrix2D> = mutableListOf()
-        weights.clear()
-        (0 until columns).forEach { i ->
-            val n = neuronsPerLayers[i]
-            val m = neuronsPerLayers[i + 1]
-            val element = DoubleMatrix2D(n, m)
-            weights.add(i, element)
-        }
-        return WeightsMatrix(weights)
     }
 }

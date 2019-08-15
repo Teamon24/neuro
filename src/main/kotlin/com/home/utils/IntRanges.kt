@@ -1,6 +1,7 @@
 package com.home.utils
 
-import com.home.utils.elements.latest.Matrix
+import kotlin.reflect.KProperty
+
 
 /**
  * R - reducer; P - product; S - summation
@@ -36,24 +37,32 @@ inline fun IntRange.P(underProduct: (Int) -> Int): Int {
     val underProductValues = this.map { underProduct(it) }
     return this.R(underProductValues.toIntArray(), Int::times)
 }
+
 fun IntRange.P(arr: IntArray) = this.R(arr, Int::times)
 fun P(arr: IntArray) = (0 until arr.size).R(arr, Int::times)
 
 
 
+fun IntArray.only(amount: Int, predicate: (Int) -> Boolean) = this.filter { predicate(it) }.count() == amount
+fun IntArray.min(amount: Int, predicate: (Int) -> Boolean) = this.filter { predicate(it) }.count() >= amount
+fun IntArray.max(amount: Int, predicate: (Int) -> Boolean) = this.filter { predicate(it) }.count() <= amount
+fun IntArray.any(predicate: (Int) -> Boolean) = min(1, predicate)
+fun IntArray.all(predicate: (Int) -> Boolean) = min(this.size, predicate)
 
 fun IntArray.deleteAt(index: Int): IntArray {
     val before = this.copyOf().sliceArray(0 until index)
-    val after = this.copyOf().sliceArray(index + 1..this.size)
+    val after = this.copyOf().sliceArray((index + 1)..this.size)
     return before + after
 }
 
-operator fun <T> Matrix<T>.get(index: Int): Matrix<T> {
-    val newSizes = this.sizes.deleteAt(index)
-
-    val newMatrix = Matrix(this.type, *newSizes)
-    for (d in 0 until newSizes.size) {
-        var size = newSizes[d]
-    }
-    return newMatrix
+/**
+ * USING ONLY ONE [IntRange] OBJECT IN DOUBLE [for] MAKES COUNTER COUNT FASTER IN TWO TIMES.
+ */
+operator fun IntRange.invoke(forBody: IntRange.() -> Any) {
+    val initial = this.i
+    this.i = this.first - 1
+    this.forEach { _ -> this.i++ ; forBody() }
+    this.i = initial
 }
+
+var IntRange.i: Int by Property("i") { 0 }

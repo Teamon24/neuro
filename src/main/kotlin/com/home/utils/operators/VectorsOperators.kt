@@ -1,31 +1,8 @@
 package com.home.utils.operators
 
-import com.home.utils.elements.Vector
+import com.home.utils.elements.latest.Vector
 import java.lang.RuntimeException
 import kotlin.reflect.KProperty0
-
-/**
- * Установка значения в вектор.
- */
-operator fun <T> Vector<T>.set(index: Int, value: T) { this.elements[index] = value }
-
-/**
- * Получение значения вектора.
- */
-operator fun <T> Vector<T>.get(index: Int): T = this.elements[index]
-
-/**
- * Прибавление элемента к вектору.
- */
-operator fun <T> Vector<T>.plus(element: T) = this.forEach { it + element}
-
-/**
- * Вычитаение элемента от вектора.
- */
-operator fun <T> Vector<T>.minus(element: T) = this.forEach { it - element }
-
-
-
 
 /**
  * Сложение векторов.
@@ -49,7 +26,7 @@ operator fun <T> Vector<T>.minus(vector: Vector<T>): Vector<T> {
 operator fun <T> Vector<T>.times(vector: Vector<T>): T {
     checkSizes(this, vector)
     var result: T? = null
-    for(i in 0 until this.size) {
+    for(i in 0 until this.size1D) {
         val thisElement: T = this[i]
         val vectorElement: T = vector[i]
         val times = thisElement * vectorElement
@@ -63,15 +40,9 @@ operator fun <T> Vector<T>.times(vector: Vector<T>): T {
     return result!!
 }
 
-fun <T> checkSizes(v1: Vector<T>, v2: Vector<T>) {
-    if (v1.size != v2.size) {
-        throw RuntimeException("Vectors sizes are not equal!")
-    }
-}
-
 private fun <T> reduce(reducer: KProperty0<(T, T) -> T>, v1: Vector<T>, v2: Vector<T>): Vector<T>
 {
-    val size = v1.size
+    val size = v1.size1D
     val result: Vector<T> = v1.type.vector(size)
 
     for (i in 0 until size) {

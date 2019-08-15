@@ -1,6 +1,6 @@
 package com.home.utils.operators
 
-import com.home.utils.elements.Matrix2D
+import com.home.utils.elements.latest.Matrix2D
 
 infix fun<T> Matrix2D<T>.strass(b: Matrix2D<T>): Matrix2D<T> {
     val n = this.rows
