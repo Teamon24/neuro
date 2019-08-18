@@ -1,5 +1,6 @@
 package com.home.neuro
 
+import com.google.common.primitives.Doubles
 import java.lang.RuntimeException
 import kotlin.math.round
 
@@ -33,7 +34,7 @@ class NeuronNet(
         neuronsPerLayers.add(inNeuronsAmount)
         neuronsPerLayers.addAll(neuronsPerMiddles)
         neuronsPerLayers.add(outNeuronsAmount)
-        weights = Weights(neuronsPerLayers.size, inNeuronsAmount, inNeuronsAmount)
+        weights = Weights(neuronsPerLayers)
     }
 
     private fun populateNeuronsPerMiddles(step: Int) {

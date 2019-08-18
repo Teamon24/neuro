@@ -1,13 +1,14 @@
 package com.home.ui.view
 
-import com.home.utils.elements.latest.MatrixNdim
+import com.home.utils.elements.latest.Matrix
+import com.home.utils.elements.latest.Matrix2D
 import javafx.geometry.Pos
 import javafx.scene.control.Label
 import tornadofx.View
 import tornadofx.gridpane
 import tornadofx.insets
 
-class Matrix2DView<T>(val matrix: MatrixNdim<T>) : View() {
+class Matrix2DView<T>(val matrix: Matrix2D<T>) : View() {
 
     //todo сделать Array2D
     //todo Array2D#add()
@@ -19,8 +20,8 @@ class Matrix2DView<T>(val matrix: MatrixNdim<T>) : View() {
 
     override val root = gridpane {
 
-        val rows = matrix.sizes[0]
-        val cols = matrix.sizes[1]
+        val rows = matrix.rows
+        val cols = matrix.cols
         vgap = 5.0
         padding = insets(5)
         for (i in 1..rows) {

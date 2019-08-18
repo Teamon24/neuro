@@ -1,4 +1,4 @@
-package com.home.utils
+package com.home.utils.functions
 
 import kotlin.reflect.KProperty
 

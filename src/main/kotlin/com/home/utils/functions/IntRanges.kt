@@ -1,7 +1,6 @@
-package com.home.utils
+package com.home.utils.functions
 
-import kotlin.reflect.KProperty
-
+import javax.swing.tree.TreeNode
 
 /**
  * R - reducer; P - product; S - summation
@@ -27,6 +26,7 @@ inline fun IntRange.S(underSum: (Int) -> Int): Int {
     val underSumValues = this.map { underSum(it) }
     return this.R(underSumValues.toIntArray(), Int::plus)
 }
+
 fun S(arr: IntArray) = (0 until arr.size).R(arr, Int::plus)
 
 
@@ -42,23 +42,10 @@ fun IntRange.P(arr: IntArray) = this.R(arr, Int::times)
 fun P(arr: IntArray) = (0 until arr.size).R(arr, Int::times)
 
 
-
-fun IntArray.only(amount: Int, predicate: (Int) -> Boolean) = this.filter { predicate(it) }.count() == amount
-fun IntArray.min(amount: Int, predicate: (Int) -> Boolean) = this.filter { predicate(it) }.count() >= amount
-fun IntArray.max(amount: Int, predicate: (Int) -> Boolean) = this.filter { predicate(it) }.count() <= amount
-fun IntArray.any(predicate: (Int) -> Boolean) = min(1, predicate)
-fun IntArray.all(predicate: (Int) -> Boolean) = min(this.size, predicate)
-
-fun IntArray.deleteAt(index: Int): IntArray {
-    val before = this.copyOf().sliceArray(0 until index)
-    val after = this.copyOf().sliceArray((index + 1)..this.size)
-    return before + after
-}
-
 /**
  * USING ONLY ONE [IntRange] OBJECT IN DOUBLE [for] MAKES COUNTER COUNT FASTER IN TWO TIMES.
  */
-operator fun IntRange.invoke(forBody: IntRange.() -> Any) {
+operator fun IntRange.invoke(forBody: IntRange.() -> Unit) {
     val initial = this.i
     this.i = this.first - 1
     this.forEach { _ -> this.i++ ; forBody() }

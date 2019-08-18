@@ -18,16 +18,22 @@ class NeuronetStructureView(weights: Weights) : View() {
         val weights = weights
         var k = 0
 
-        val column = ++k
-//        for (row in 1..weights[0]) {
-//            add(Label("$row"), column, row)
+
+        for (row in 1..weights.size + 1) {
+            add(Label("layer: $row"), row, k)
         }
 
-//        for (matrix2D in weights) {
-//            val column = ++k
-//            for (row in 1..matrix2D.cols) {
-//                add(Label("$row"), column, row)
-//            }
-//        }
+        val column = ++k
+        for (row in 1..weights[0].rows) {
+            add(Label("$row"), column, row)
+        }
+
+        for (matrix2D in weights) {
+            val column = ++k
+            for (row in 1..matrix2D.cols) {
+                add(Label("$row"), column, row)
+            }
+        }
     }
+}
 

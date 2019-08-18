@@ -8,7 +8,7 @@ infix fun<T> Matrix2D<T>.strass(b: Matrix2D<T>): Matrix2D<T> {
     val R = this.matrix(n, m)
     /** base case  */
     if (n == 1) {
-        R[0][0] = this[0][0] * b[0][0]
+//        R[0][0] = this[0][0] * b[0][0]
     } else {
         val halfN = n / 2
         val a11 = this.matrix(halfN)

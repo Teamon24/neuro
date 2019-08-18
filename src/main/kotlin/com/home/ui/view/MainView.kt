@@ -10,7 +10,7 @@ class MainView : View("Hello TornadoFX") {
 
     override val root = hbox {
         this.add(NeuronetStructureView(weights))
-        for (i in 0 until weights.sizes[0]) {
+        for (i in 0 until weights.size) {
             val uiComponent = Matrix2DView(weights[i])
             matricesViews.add(uiComponent)
             this.add(uiComponent)
