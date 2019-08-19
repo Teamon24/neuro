@@ -1,10 +1,9 @@
 package com.home.ui.view
 
 import com.home.neuro.Weights
+import com.home.ui.styles.Styles
 import javafx.scene.control.Label
-import tornadofx.View
-import tornadofx.gridpane
-import tornadofx.insets
+import tornadofx.*
 
 /**
  *
@@ -20,20 +19,27 @@ class NeuronetStructureView(weights: Weights) : View() {
 
 
         for (row in 1..weights.size + 1) {
-            add(Label("layer: $row"), row, k)
+            add(layer(row), row, k)
         }
 
         val column = ++k
         for (row in 1..weights[0].rows) {
-            add(Label("$row"), column, row)
+            add(neuron(row), column, row)
         }
 
         for (matrix2D in weights) {
             val column = ++k
             for (row in 1..matrix2D.cols) {
-                add(Label("$row"), column, row)
+                add(neuron(row), column, row)
             }
         }
+    }
+
+    private fun layer(row: Int) = label { text = "layer: $row" }
+
+    private fun neuron(row: Int) = label {
+        text = "$row"
+        addClass(Styles.neuron)
     }
 }
 
