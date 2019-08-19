@@ -40,12 +40,14 @@ class Styles : Stylesheet() {
 
         val faintGray = c(230, 230, 230, 0.5)
         val blue = c(29, 44, 245, 0.5)
+        val orange = c(255, 77, 11, 0.5)
+        val color = orange
 
         separator {
             +sizes
             minHeight = 100.px
-            backgroundColor = colors(blue.alpha(0.5))
-            +border(0.px, 0.px, blue)
+            backgroundColor = colors(color.alpha(0.5))
+            +border(0.px, 0.px, color)
         }
 
         matrix {
@@ -65,8 +67,8 @@ class Styles : Stylesheet() {
         header {
             alignment = Pos.CENTER
             minWidth = 100.px
-            backgroundColor = colors(blue.alpha(0.1))
-            +border(2.px, 3.px, blue)
+            backgroundColor = colors(color.alpha(0.1))
+            +border(2.px, 3.px, color)
         }
 
         neuron {
