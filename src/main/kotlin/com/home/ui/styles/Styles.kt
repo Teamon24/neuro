@@ -40,7 +40,7 @@ class Styles : Stylesheet() {
 
         val faintGray = c(230, 230, 230, 0.5)
         val blue = c(29, 44, 245, 0.5)
-        val orange = c(255, 77, 11, 0.5)
+        val orange = c(225, 92, 9)
         val color = orange
 
         separator {
