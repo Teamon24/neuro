@@ -1,6 +1,6 @@
-package com.home.ui.view
+package com.home.neuro.ui.view
 
-import com.home.ui.styles.Styles
+import com.home.neuro.ui.styles.Styles
 import com.home.utils.elements.latest.Matrix2D
 import javafx.geometry.Pos
 import javafx.scene.control.Label

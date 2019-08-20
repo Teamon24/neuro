@@ -1,8 +1,7 @@
-package com.home.ui.view
+package com.home.neuro.ui.view
 
 import com.home.neuro.Weights
-import com.home.ui.styles.Styles
-import javafx.scene.control.Label
+import com.home.neuro.ui.styles.Styles
 import tornadofx.*
 
 /**

@@ -1,7 +1,7 @@
 package com.home.utils.elements.latest
 
-import com.home.utils.functions.P
-import com.home.utils.functions.S
+import com.home.utils.functions.Prod
+import com.home.utils.functions.Sum
 import com.home.utils.operators.plus
 
 /**
@@ -19,5 +19,5 @@ import com.home.utils.operators.plus
 val index1D = { sizes: IntArray, e: IntArray ->
     val D  = sizes.size
     val N  = 1 + sizes
-    (0 until D).S { i -> e[i] * (0..i).P(N) }
+    (0 until D).Sum { i -> e[i] * (0..i).Prod(N) }
 }

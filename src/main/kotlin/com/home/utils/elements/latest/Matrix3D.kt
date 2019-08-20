@@ -12,14 +12,19 @@ open class Matrix3D<T> : Typed<T>
 
     private val matrix: Matrix<T>
 
-    constructor(type: Type<T>, rows: Int, cols: Int, depths: Int) : super(type) {
+    constructor(type: Type<T>,
+                rows: Int,
+                cols: Int,
+                depths: Int) : super(type)
+    {
         this.rows = rows
         this.cols = cols
         this.depths = depths
         this.matrix = Matrix(type, this.rows, this.cols, this.depths)
     }
 
-    constructor(matrix: Matrix<T>) : super(matrix.type) {
+    constructor(matrix: Matrix<T>) : super(matrix.type)
+    {
         Thrower.throwIfWrongSize(3, matrix)
         this.rows = matrix.sizes[0]
         this.cols = matrix.sizes[1]

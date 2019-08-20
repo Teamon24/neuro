@@ -4,7 +4,7 @@ import com.home.bot.SourceImitation.SourceImitationConfigs.INTERVAL
 import com.home.bot.SourceImitation.SourceImitationConfigs.cost
 import com.home.bot.SourceImitation.SourceImitationConfigs.durationMillis
 import com.home.bot.SourceImitation.SourceImitationConfigs.now
-import com.home.bot.utils.Time.SECOND
+import com.home.utils.Time.SECOND
 import io.reactivex.subjects.PublishSubject
 import javafx.application.Platform
 import org.joda.time.DateTime

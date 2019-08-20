@@ -1,4 +1,4 @@
-package com.home.bot.utils
+package com.home.utils.functions
 
 import com.home.bot.CostConsumerChart
 import javafx.event.EventTarget

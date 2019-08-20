@@ -1,4 +1,4 @@
-package com.home.ui.model
+package com.home.neuro.ui.model
 
 /**
  *

@@ -7,22 +7,6 @@ import kotlin.reflect.KClass
 
 object Thrower {
 
-    data class TypeStep(val matrix: Matrix<*>) {
-        fun isNot(type: MatrixType) {
-            val typeIsNotCorrect = !type.isCorrect(matrix)
-            if (typeIsNotCorrect) {
-                throw RuntimeException("This is not a '$type'.")
-            }
-        }
-
-        fun iz(type: MatrixType) {
-            val typeIsCorrect = type.isCorrect(matrix)
-            if (typeIsCorrect) {
-                throw RuntimeException("Type should not be '$type'.")
-            }
-        }
-    }
-
     fun throwIf(matrix: Matrix<*>) = TypeStep(matrix)
 
     fun <T : Typed<*>> throwObjectIsNot(kClass: KClass<T>, index: Int): String =
@@ -36,7 +20,8 @@ object Thrower {
     }
 
     fun throwIfOverBound(index: Int, bound: Int) {
-        if (index > bound) throwRex("Index '$index' is out of bound '$bound'")
+        if (index > bound)
+            throwRex("Index '$index' is out of bound '$bound'")
     }
 
     fun throwIfNegative(index: Int) {
@@ -81,4 +66,20 @@ object Thrower {
 
     private fun throwRex(message: String): Nothing = throw RuntimeException(message)
 
+}
+
+data class TypeStep(val matrix: Matrix<*>) {
+    fun isNot(type: MatrixType) {
+        val typeIsNotCorrect = !type.isCorrect(matrix)
+        if (typeIsNotCorrect) {
+            throw RuntimeException("This is not a '$type'.")
+        }
+    }
+
+    fun iz(type: MatrixType) {
+        val typeIsCorrect = type.isCorrect(matrix)
+        if (typeIsCorrect) {
+            throw RuntimeException("Type should not be '$type'.")
+        }
+    }
 }

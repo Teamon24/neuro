@@ -1,7 +1,6 @@
 package com.home.utils.elements.latest
 
 import com.home.utils.Thrower
-import com.home.utils.elements.type.Doubles
 import com.home.utils.elements.type.Type
 import com.home.utils.elements.type.Typed
 import com.home.utils.functions.i
@@ -10,7 +9,7 @@ import com.home.utils.functions.invoke
 class Matrix2D<T> : Typed<T> {
     val rows: Int
     val cols: Int
-    private val matrix: Matrix<T>
+    val matrix: Matrix<T>
 
     constructor(type: Type<T>, rows: Int, cols: Int) : super(type) {
         this.rows = rows

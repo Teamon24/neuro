@@ -1,12 +1,11 @@
 package com.home.utils.elements.latest
 
 import com.home.utils.Thrower
-import com.home.utils.functions.P
+import com.home.utils.functions.Prod
 import com.home.utils.functions.downOn
 import com.home.utils.elements.type.Integers
 import com.home.utils.elements.type.Type
 import com.home.utils.elements.type.Typed
-import com.home.utils.functions.i
 
 class Container<T>(
     type: Type<T>,
@@ -47,7 +46,7 @@ class Container<T>(
     fun desizeFirst(index: Int): Container<T> {
         this.hardIndexes.add(index)
         var d = this.hardIndexes.size
-        val p = P(this.sizes.dropWhile { d--; d >= 0 }.toIntArray())
+        val p = Prod(this.sizes.dropWhile { d--; d >= 0 }.toIntArray())
         val startIndex = this.start + index * p
         val lastIndex = this.end - (sizes[this.hardIndexes.size - 1] - 1 - index) * p
         val ceasedContainer = Container(type, this.sizes, this.hardIndexes, this.elements)

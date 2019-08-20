@@ -14,19 +14,19 @@ class Matrix<T> : Typed<T>
     val sizes: IntArray
     private val size1D: Int
     val container: Container<T>
-    internal val cash = HashMap<Int, Matrix<T>>()
+    private val cash = HashMap<Int, Matrix<T>>()
 
     constructor(type: Type<T>, vararg sizes: Int) : super(type) {
         Thrower.throwIfEmpty(sizes)
         this.sizes = sizes
-        this.size1D = P(this.sizes)
+        this.size1D = Prod(this.sizes)
         this.container = Container(type, this.sizes)
     }
 
     constructor(type: Type<T>, container: Container<T>, vararg sizes: Int): super(type) {
         Thrower.throwIfEmpty(sizes)
         this.sizes = sizes
-        this.size1D = P(this.sizes)
+        this.size1D = Prod(this.sizes)
         this.container = container
     }
 

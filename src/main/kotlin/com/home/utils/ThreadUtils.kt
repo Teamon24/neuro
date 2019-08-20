@@ -1,4 +1,4 @@
-package com.home.bot.utils
+package com.home.utils
 
 object ThreadUtils {
     fun printThread() {

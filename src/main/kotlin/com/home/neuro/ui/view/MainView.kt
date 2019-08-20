@@ -1,8 +1,8 @@
-package com.home.ui.view
+package com.home.neuro.ui.view
 
-import com.home.bot.utils.CSSUtils
+import com.home.utils.CSSUtils
 import com.home.neuro.NeuronNet
-import com.home.ui.styles.Styles
+import com.home.neuro.ui.styles.Styles
 import com.home.utils.functions.i
 import com.home.utils.functions.invoke
 import javafx.scene.control.Label

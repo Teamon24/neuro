@@ -1,4 +1,4 @@
-package com.home.ui.styles
+package com.home.neuro.ui.styles
 
 import javafx.geometry.Pos
 import javafx.scene.paint.Color
@@ -46,7 +46,7 @@ class Styles : Stylesheet() {
         separator {
             +sizes
             minHeight = 100.px
-            backgroundColor = colors(color.alpha(0.5))
+            backgroundColor = colors(color.alpha(0.8))
             +border(0.px, 0.px, color)
         }
 

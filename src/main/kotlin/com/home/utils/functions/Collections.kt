@@ -1,7 +1,32 @@
 package com.home.utils.functions
 
 
+fun <T> list(toAdd: () -> List<T>): List<T> {
+    val arrayListOf = arrayListOf<T>()
+    arrayListOf.addAll(toAdd())
+    return arrayListOf
+}
+
+fun <T> list(vararg toAdd: T): List<T> {
+    val arrayListOf = arrayListOf<T>()
+    toAdd.forEach { arrayListOf.add(it) }
+    return arrayListOf
+}
+
+fun <T> List<T>.times(times: Int): List<List<T>> {
+    val arrayListOf = arrayListOf<List<T>>()
+    (1..times) { arrayListOf.add(this@times) }
+    return arrayListOf
+}
+
 operator fun Int.plus(collection: Collection<Int>) = this.plus<Int>(collection)
+
+operator fun <T> Collection<T>.plus(collection: Collection<T>): List<T> {
+    val arrayList = ArrayList<T>()
+    arrayList.addAll(this)
+    arrayList.addAll(collection)
+    return arrayList
+}
 
 operator fun <T> T.plus(collection: Collection<T>): List<T> {
     val arrayList = ArrayList<T>()

@@ -1,7 +1,7 @@
 package com.home.bot
 
-import com.home.bot.utils.CSSUtils
-import com.home.bot.utils.ThreadUtils
+import com.home.utils.CSSUtils
+import com.home.utils.ThreadUtils
 import io.reactivex.subjects.PublishSubject
 import javafx.application.Application
 import javafx.scene.Node

@@ -6,7 +6,7 @@ import com.home.utils.elements.type.Typed
 
 class Vector<T> : Typed<T> {
 
-    private val container: Container<T>
+    val container: Container<T>
     val size: Int
 
     constructor(type: Type<T>, size: Int) : super(type) {

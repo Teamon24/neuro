@@ -1,9 +1,9 @@
 package com.home.bot
 
 import com.home.bot.SourceImitation.SourceImitationConfigs.INTERVAL
-import com.home.bot.utils.Time.MINUTE
-import com.home.bot.utils.defaultFormatter
-import com.home.bot.utils.printBounds
+import com.home.utils.Time.MINUTE
+import com.home.utils.functions.defaultFormatter
+import com.home.utils.functions.printBounds
 import javafx.scene.chart.LineChart
 import javafx.scene.chart.NumberAxis
 import javafx.scene.chart.XYChart

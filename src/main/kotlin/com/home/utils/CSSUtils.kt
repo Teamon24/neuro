@@ -1,4 +1,4 @@
-package com.home.bot.utils
+package com.home.utils
 
 import javafx.scene.Parent
 
