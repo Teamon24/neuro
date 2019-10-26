@@ -15,12 +15,12 @@ enum class MatrixType(val isCorrect: (Matrix<*>)-> Boolean) {
 
 fun <T> Matrix<T>.scalar(): T {
     Thrower.throwIf(this).isNot(SCALAR)
-    return this.container[0]
+    return this.elementsContainer[0]
 }
 
 fun <T> Matrix<T>.vector(): Vector<T> {
     Thrower.throwIf(this).isNot(VECTOR)
-    return Vector(this.container)
+    return Vector(this.elementsContainer)
 }
 
 fun <T> Matrix<T>.matrix2d(): Matrix2D<T> {

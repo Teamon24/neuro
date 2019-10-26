@@ -38,7 +38,7 @@ class NeuronetStructureView(weights: Weights) : View() {
 
     private fun neuron(row: Int) = label {
         text = "$row"
-        addClass(Styles.neuron)
+        addClass(Styles.neuronNumber)
     }
 }
 

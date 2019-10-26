@@ -1,6 +1,6 @@
 package com.home.utils.functions
 
-import com.home.bot.CostConsumerChart
+import com.home.bot.CostConsumerLineChart
 import javafx.event.EventTarget
 import javafx.scene.chart.LineChart
 import javafx.scene.chart.NumberAxis
@@ -24,9 +24,9 @@ fun printBounds(xAxis: NumberAxis, yAxis: NumberAxis) {
             "yAxis.upper = ${yAxis.upperBound}")
 }
 
-fun EventTarget.costChart(chart: CostConsumerChart,
+fun EventTarget.costChart(chart: CostConsumerLineChart,
                           title: String? = null,
                           op: LineChart<Number, Number>.() -> Unit = {}): LineChart<Number, Number>
 {
-    return chart.costChart.attachTo(this, op) { it.title = title }
+    return chart.lineChart.attachTo(this, op) { it.title = title }
 }

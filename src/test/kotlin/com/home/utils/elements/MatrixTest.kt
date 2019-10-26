@@ -1,23 +1,23 @@
 package com.home.utils.elements
 
 import com.home.utils.ArrayUtils
-import com.home.utils.elements.MatrixTestUtils.cartesians
-import com.home.utils.elements.MatrixTestUtils.get3DMatricesDims
-import com.home.utils.elements.MatrixTestUtils.getMatricesDims
-import com.home.utils.elements.MatrixTestUtils.getVectorsDims
-import com.home.utils.elements.MatrixTestUtils.matrix
-import com.home.utils.elements.MatrixTestUtils.matrix3D
+import com.home.utils.Timer
+import com.home.utils.elements.MatrixUtils.dimensionSizesList
+import com.home.utils.elements.MatrixUtils.get3DMatricesDims
+import com.home.utils.elements.MatrixUtils.getMatricesDims
+import com.home.utils.elements.MatrixUtils.getVectorsDims
+import com.home.utils.elements.MatrixUtils.matrix
+import com.home.utils.elements.MatrixUtils.matrix3D
 import com.home.utils.elements.latest.*
 import com.home.utils.elements.type.Integers
-import com.home.utils.functions.i
 import com.home.utils.functions.inverse
 import com.home.utils.functions.invoke
+import com.home.utils.functions.randomExclusive
 import com.home.utils.operators.allIndexesCombos
 import org.junit.Assert
 import org.junit.Test
 import java.util.concurrent.atomic.AtomicReference
 import kotlin.random.Random
-import kotlin.reflect.KClass
 
 val TYPE = Integers
 
@@ -34,7 +34,7 @@ class MatrixTest {
      */
     @Test
     fun testSet() {
-        val cartesians = cartesians(3, 15)
+        val cartesians = dimensionSizesList(3, 15)
 
         for (dimensions in cartesians) {
             for (dimension in dimensions) {
@@ -43,11 +43,11 @@ class MatrixTest {
                 val expectedMatrix = ArrayUtils.nDimArray(sizes) { 0 }
                 val actualMatrix = matrix(TYPE, sizes)
 
-                val indexes = randomIn(sizes)
+                val indexes = this.randomIndexesFrom(sizes)
                 this.set(expectedMatrix, 1, *indexes)
                 actualMatrix.set(1, *indexes)
 
-                val expectedValue = this.get(expectedMatrix, TYPE.clazz(), *indexes)
+                val expectedValue = ArrayUtils.get(expectedMatrix, TYPE.clazz(), *indexes)
                 val actualValue = actualMatrix.getAt(*indexes)
 
                 Assert.assertTrue(expectedValue == actualValue)
@@ -63,13 +63,11 @@ class MatrixTest {
      */
     @Test
     fun testSets() {
-        val cartesians = get3DMatricesDims(cartesians(3, 15))
-
-
-        for (dimensions in cartesians) {
+        val dimensionsList = get3DMatricesDims(dimensionSizesList(3, 15))
+        for (dimensions in dimensionsList) {
             for (dimension in dimensions) {
                 val sizes = dimension.toIntArray()
-                val indexes = randomIn(sizes)
+                val indexes = this.randomIndexesFrom(sizes)
                 val expectedValue = Random.nextInt()
                 val (i, j, k) = Triple(0, indexes[1], indexes[2])
                 try {
@@ -90,31 +88,30 @@ class MatrixTest {
     /**
      * Iterating over all possible dimensions
      * test creates matrix
-     * and cashing mechanism of internal matrix elements.
+     * and checks cashing mechanism of internal matrix elements.
      */
     @Test
     fun testCash() {
-        val cartesians = cartesians(3, 15)
-        val vectorDimensions = getVectorsDims(cartesians)
-        val matricesDimensions = getMatricesDims(cartesians)
-        for (dimensions in vectorDimensions + matricesDimensions) {
-            for (dimension in dimensions) {
-                val sizes = dimension.toIntArray()
-                val matrix = matrix(TYPE, sizes)
-                (0 until sizes.size) {
-                    val size = sizes[i]
-                    val index = size - 1
-                    val matrix1 = matrix[index]
-                    val matrix2 = matrix[index]
-                    Assert.assertTrue(matrix1 === matrix2)
-                }
+        val dimensionSizesList = dimensionSizesList(3, 15)
+        val vectorDimensions = getVectorsDims(dimensionSizesList)
+        val matricesDimensions = getMatricesDims(dimensionSizesList)
+        for (dimensionsSizes in vectorDimensions + matricesDimensions) {
+            for (sizes in dimensionsSizes) {
+                val sizesArr = sizes.toIntArray()
+                val matrix = matrix(TYPE, sizesArr)
+                val firstSize = sizesArr[0]
+                val randomExclusive = firstSize.randomExclusive()
+                val matrix1 = matrix[randomExclusive]
+                val matrix2 = matrix[randomExclusive]
+                Assert.assertTrue(matrix1 === matrix2)
+                println("$matrix1 == $matrix2")
             }
         }
     }
 
     @Test
     fun testIsScalar() {
-        val cartesians = cartesians(7, 1)
+        val cartesians = dimensionSizesList(7, 1)
         for (dimensions in cartesians) {
             for (dimension in dimensions) {
                 val sizes = dimension.toIntArray()
@@ -128,7 +125,7 @@ class MatrixTest {
 
     @Test
     fun testIsVector() {
-        val sizesByDimensions = getVectorsDims(cartesians(5, 3))
+        val sizesByDimensions = getVectorsDims(dimensionSizesList(5, 3))
 
         for (dimensions in sizesByDimensions) {
             for (dimension in dimensions) {
@@ -144,7 +141,7 @@ class MatrixTest {
 
     @Test
     fun testIsMatrix() {
-        val sizesByDimensions = getMatricesDims(cartesians(5, 3))
+        val sizesByDimensions = getMatricesDims(dimensionSizesList(5, 3))
 
         for (dimensions in sizesByDimensions) {
             for (dimension in dimensions) {
@@ -175,11 +172,85 @@ class MatrixTest {
             val transposedValue = transposed.getAt(*inversed)
             Assert.assertEquals(originalValue, transposedValue)
         }
+    }
+
+
+    @Test
+    fun testGet() {
+        val size = 7
+        val dimension = 3
+        println((1L..dimension).fold(1) { acc: Long, _ -> acc*size })
+        val sizes = size.toArray(dimension)
+        val matrix = matrix(Integers, sizes)
+        val arrayNdim = ArrayUtils.nDimArray(sizes) { 0 }
+
+        val allIndexesCombos = matrix.allIndexesCombos()
+
+        val times = 10000
+
+        println(
+            (1..times).map {
+                Timer.nanoCount("matrix", toLog = false) {
+                    allIndexesCombos.forEach { matrix.getAt(it) }
+                }
+            }
+            .map { it.second }
+            .sum() / times
+        )
+
+        println()
+
+        println(
+            (1..times).map {
+                Timer.nanoCount("array", toLog = false) {
+                    allIndexesCombos.forEach { ArrayUtils.get(arrayNdim, TYPE.clazz(), it, sizes) }
+                }
+            }
+            .map { it.second }
+            .sum() / times
+        )
+    }
+
+    @Test
+    fun testGet2() {
+        val size = 7
+        val dimension = 3
+        val sizes = size.toArray(dimension)
+        val matrix = matrix(Integers, sizes)
+        val arrayNdim = ArrayUtils.nDimArray(matrix)
+
+        val randomIndexes = arrayListOf<Int>()
+        (0 until dimension) {
+            randomIndexes.add(size.randomExclusive())
+        }
+
+        println(
+            Timer.nanoCount("matrix") {
+                randomIndexes.forEach {
+                    var any: Any = matrix[it]
+                    if (any is Matrix<*>) {
+                        any = any[it]
+                    }
+                }
+            }.second
+        )
+
+
+        println(
+            Timer.nanoCount("array") {
+                var array: Array<*> = arrayNdim
+                randomIndexes.forEach {
+                    array = array(arrayNdim)[it]
+                }
+            }.second
+        )
 
     }
 
-    private fun randomIn(sizes: IntArray): IntArray {
-        val random = Random(sizes[0])
+    private fun array(any: Any?):Array<Array<*>> = any as Array<Array<*>>
+
+    private fun randomIndexesFrom(sizes: IntArray): IntArray {
+        val random = Random(seed = 245813549731)
         return sizes.map { random.nextInt(0, it) }.toIntArray()
     }
 
@@ -193,24 +264,6 @@ class MatrixTest {
         println("Ind: ${indexes.joinToString(truncated = "")}")
         println((1..passTitle.length).joinToString(separator = "", truncated = "") { "-" })
         println("")
-    }
-
-    private inline fun<reified T : Any> get(expectedMatrix: Array<*>, tClass: KClass<T>, vararg indexes: Int): T {
-        val result = AtomicReference<Array<*>>()
-        val any = expectedMatrix[indexes[0]]
-        if (any is Array<*>) {
-            result.set(any as Array<*>?)
-            for (i in 1 until indexes.size - 1) {
-                result.set(result.get()[indexes[i]] as Array<*>);
-            }
-            return (result.get() as Array<T>)[indexes[indexes.size - 1]]
-        }
-
-        if (expectedMatrix[indexes[0]] is T) {
-            return expectedMatrix[indexes[indexes.size - 1]] as T
-        }
-
-        throw RuntimeException("Unexpected result: ")
     }
 
     private inline fun <reified T> set(array: Array<*>, value: T, vararg indexes: Int) {
@@ -230,5 +283,13 @@ class MatrixTest {
         }
 
     }
+}
+
+fun Int.toArray(dimension: Int): IntArray {
+    val arrayListOf = arrayListOf<Int>()
+    repeat(dimension) {
+        arrayListOf.add(this)
+    }
+    return arrayListOf.toIntArray()
 }
 

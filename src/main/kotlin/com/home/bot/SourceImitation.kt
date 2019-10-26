@@ -5,13 +5,15 @@ import com.home.bot.SourceImitation.SourceImitationConfigs.cost
 import com.home.bot.SourceImitation.SourceImitationConfigs.durationMillis
 import com.home.bot.SourceImitation.SourceImitationConfigs.now
 import com.home.utils.Time.SECOND
+import io.reactivex.disposables.Disposable
+import io.reactivex.functions.Consumer
 import io.reactivex.subjects.PublishSubject
 import javafx.application.Platform
 import org.joda.time.DateTime
 import kotlin.math.cos
 import kotlin.random.Random
 
-class SourceImitation(private val source: PublishSubject<Pair<Time, Cost>>) {
+class SourceImitation(private val source: PublishSubject<Point<Long, Double>>) {
 
     object SourceImitationConfigs {
         val INTERVAL: Long = (0.18 * SECOND).toLong()
@@ -48,9 +50,9 @@ class SourceImitation(private val source: PublishSubject<Pair<Time, Cost>>) {
         }
     }
 
-    private fun timeAndCost(): Pair<Time, Cost> {
+    private fun timeAndCost(): Point<Long, Double> {
         val time = DateTime().millis
-        val value = cost(time)
-        return Time(time) to Cost(value)
+        val cost = cost(time)
+        return Point(time, cost)
     }
 }

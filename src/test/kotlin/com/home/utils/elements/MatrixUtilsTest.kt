@@ -8,25 +8,25 @@ import org.junit.Assert
 import org.junit.Test
 import kotlin.math.pow
 
-class MatrixTestUtilsTest {
+class MatrixUtilsTest {
 
     @Test
     fun testCartesians() {
         val dimension = 3
         val size = 4
 
-        val cartesians = MatrixTestUtils.cartesians(dimension, size)
+        val actuals = MatrixUtils.dimensionSizesList(dimension, size)
         val expecteds = arrayListOf<List<List<Int>>>()
         val sizes = arrayListOf<Int>()
 
-        (1..size) {sizes.add(i)}
+        for(i in 1..size) { sizes.add(i) }
 
         (1..dimension) {
             expecteds.add(Lists.cartesianProduct(sizes.times(i)))
         }
 
-        this.assertAmounts(size, cartesians)
-        this.assertCombinations(expecteds, cartesians)
+        this.assertAmounts(size, actuals)
+        this.assertCombinations(expecteds, actuals)
     }
 
     private fun assertCombinations(expecteds: ArrayList<List<List<Int>>>,
@@ -34,12 +34,12 @@ class MatrixTestUtilsTest {
     {
         val expectedsSize = expecteds.size
         Assert.assertEquals(expectedsSize, actuals.size)
-        (0 until expectedsSize) {
+        for(i in 0 until expectedsSize) {
             val expected = expecteds[i]
             val actual = actuals[i]
             Assert.assertEquals(expected.size, actual.size)
-            (0 until expected.size) {
-                Assert.assertEquals(expected[i], actual[i])
+            for (j in 0 until expected.size) {
+                Assert.assertEquals(expected[j], actual[j])
             }
         }
     }
@@ -51,8 +51,7 @@ class MatrixTestUtilsTest {
         val expectedCount = (1..3).fold(0) { acc: Int, i: Int -> acc + pow(size, i) }
 
         var actualCount = 0;
-        (0 until cartesians.size) { (1..cartesians[i].size) { actualCount++ } }
+        for(i in 0 until cartesians.size) { (1..cartesians[i].size) { actualCount++ } }
         Assert.assertEquals(expectedCount, actualCount)
     }
-
 }

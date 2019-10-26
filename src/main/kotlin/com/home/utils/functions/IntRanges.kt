@@ -1,5 +1,7 @@
 package com.home.utils.functions
 
+import kotlin.random.Random
+
 /**
  * R - reducer; P - product; S - summation
  */
@@ -51,3 +53,8 @@ operator fun IntRange.invoke(forBody: IntRange.() -> Unit) {
 }
 
 var IntRange.i: Int by Property("i") { 0 }
+var IntRange.random: Random by RandomProp("random") { Random }
+
+fun IntRange.randomExclusive() = this.random.nextInt(this.first, this.last)
+fun IntRange.randomInclusive() = this.random.nextInt(this.first, this.last + 1)
+

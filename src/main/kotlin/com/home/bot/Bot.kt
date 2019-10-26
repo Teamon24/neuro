@@ -2,18 +2,15 @@ package com.home.bot
 
 data class Bot(
     val buyInterval: Double,
-    val sellInterval: Double): SimpleConsumer<Pair<Time, Cost>, Unit>()
+    val sellInterval: Double): SimpleConsumer<Point<Long, Double>, Unit>()
 {
-    override val acceptBody: (Pair<Time, Cost>) -> Unit  = {
-        println(""""time": ${it.first.value}; "cost": ${it.second.value}""")
+    override val acceptBody: (Point<Long, Double>) -> Unit  = {
+        println(""""time": ${it.x}; "cost": ${it.y}""")
     }
 
-    val values: HashMap<Time, Cost> = HashMap()
+    val values: HashMap<Long, Double> = HashMap()
 
-    fun addValue(value: Pair<Time, Cost>) {
-        values.put(value.first, value.second)
+    fun addValue(value: Point<Long, Double>) {
+        values.put(value.x, value.y)
     }
 }
-
-class Cost(val value: Double)
-class Time(val value: Long)

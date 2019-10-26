@@ -2,6 +2,14 @@ package com.home.utils.functions
 
 import com.home.utils.Thrower
 
+fun IntArray.inverse(): IntArray {
+    val inversed = ArrayList<Int>()
+    for (i in this.size - 1 downTo 0) {
+        inversed.add(this[i])
+    }
+    return inversed.toIntArray()
+}
+
 
 fun IntArray.only(amount: Int, predicate: (Int) -> Boolean): Boolean {
     Thrower.throwIfSizeIsLessThanAmount(this.size, amount)
@@ -26,8 +34,7 @@ fun IntArray.no(value: Int) = min(0) { it == value }
 
 fun IntArray.deleteAt(index: Int): IntArray {
     if (index == 0) {
-        val elements = this.toTypedArray().drop(1)
-        return elements.toIntArray()
+        return this.drop(1).toIntArray()
     }
 
     val before = this.copyOf().sliceArray(0 until index + 1)

@@ -3,19 +3,21 @@ package com.home.utils.elements.latest
 import com.home.utils.Thrower
 import com.home.utils.functions.Prod
 import com.home.utils.functions.downOn
-import com.home.utils.elements.type.Integers
 import com.home.utils.elements.type.Type
 import com.home.utils.elements.type.Typed
+import com.home.utils.functions.deleteAt
 
-class Container<T>(
+class ElementsContainer<T>(
     type: Type<T>,
     val sizes: IntArray,
-    private val hardIndexes: ArrayList<Int> = ArrayList(),
+    private val hardIndexes: HashMap<Int, Int> = HashMap(),
     elements: ArrayList<T> = ArrayList()
 ) : Typed<T>(type) {
+
     var start: Int = 0
     var end: Int = index1D(this.sizes, this.sizes downOn 1)
     var elements: ArrayList<T> = ArrayList()
+    var hardIndexesCounter = -1;
 
     init {
         if (elements.isEmpty() && this.elements.isEmpty()) {
@@ -43,25 +45,21 @@ class Container<T>(
         return this.elements[global]
     }
 
-    fun desizeFirst(index: Int): Container<T> {
-        this.hardIndexes.add(index)
+    fun desizeFirst(sameIndexNumber: Boolean, index: Int): ElementsContainer<T> {
+        if (!sameIndexNumber) {
+            hardIndexesCounter++
+        }
+        this.hardIndexes[hardIndexesCounter] = index
         var d = this.hardIndexes.size
-        val p = Prod(this.sizes.dropWhile { d--; d >= 0 }.toIntArray())
+        val newSizes = this.sizes.dropWhile { --d; d >= 0 }.toIntArray()
+        val p = Prod(newSizes)
         val startIndex = this.start + index * p
-        val lastIndex = this.end - (sizes[this.hardIndexes.size - 1] - 1 - index) * p
-        val ceasedContainer = Container(type, this.sizes, this.hardIndexes, this.elements)
+        val i = this.hardIndexes.size - 1
+        val i1 = this.sizes[i] - 1 - index
+        val lastIndex = this.end - i1 * p
+        val ceasedContainer = ElementsContainer(this.type, this.sizes.deleteAt(0), this.hardIndexes, this.elements)
         ceasedContainer.start = startIndex
         ceasedContainer.end = lastIndex
         return ceasedContainer
     }
-}
-
-
-
-fun main() {
-    val matrix2d = Matrix2D(Integers, 3, 3)
-    val vector = matrix2d[1]
-    val scalar = vector[1]
-
-    println()
 }

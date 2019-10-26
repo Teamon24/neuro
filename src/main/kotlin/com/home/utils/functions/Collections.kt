@@ -1,5 +1,21 @@
 package com.home.utils.functions
 
+import com.home.utils.Thrower
+
+fun <T> List<T>.only(amount: Int, predicate: (T) -> Boolean): Boolean {
+    Thrower.throwIfSizeIsLessThanAmount(this.size, amount)
+    return this.filter { predicate(it) }.count() == amount
+}
+
+fun <T> List<T>.min(amount: Int, predicate: (T) -> Boolean): Boolean {
+    Thrower.throwIfSizeIsLessThanAmount(this.size, amount)
+    return this.filter { predicate(it) }.count() >= amount
+}
+
+fun <T> List<T>.max(amount: Int, predicate: (T) -> Boolean): Boolean {
+    Thrower.throwIfSizeIsLessThanAmount(this.size, amount)
+    return this.filter { predicate(it) }.count() <= amount
+}
 
 fun <T> list(toAdd: () -> List<T>): List<T> {
     val arrayListOf = arrayListOf<T>()
@@ -13,9 +29,9 @@ fun <T> list(vararg toAdd: T): List<T> {
     return arrayListOf
 }
 
-fun <T> List<T>.times(times: Int): List<List<T>> {
+fun <T> List<T>.times(amount: Int): List<List<T>> {
     val arrayListOf = arrayListOf<List<T>>()
-    (1..times) { arrayListOf.add(this@times) }
+    for(i in 1..amount) { arrayListOf.add(this) }
     return arrayListOf
 }
 

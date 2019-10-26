@@ -9,33 +9,33 @@ import com.home.utils.functions.invoke
 class Matrix2D<T> : Typed<T> {
     val rows: Int
     val cols: Int
-    val matrix: Matrix<T>
+    val base: Matrix<T>
 
     constructor(type: Type<T>, rows: Int, cols: Int) : super(type) {
         this.rows = rows
         this.cols = cols
-        this.matrix = Matrix(type, this.rows, this.cols)
+        this.base = Matrix(type, this.rows, this.cols)
     }
 
-    constructor(container: Container<T>, vararg sizes: Int) : super(container.type) {
+    constructor(elementsContainer: ElementsContainer<T>, vararg sizes: Int) : super(elementsContainer.type) {
         this.rows = sizes[0]
         this.cols = sizes[1]
-        this.matrix = Matrix(type, container, *sizes)
+        this.base = Matrix(type, elementsContainer, *sizes)
     }
 
     constructor(matrix: Matrix<T>) : super(matrix.type) {
         Thrower.throwIfWrongSize(2, matrix)
-        this.rows = matrix.container.sizes[0]
-        this.cols = matrix.container.sizes[1]
-        this.matrix = matrix
+        this.rows = matrix.elementsContainer.sizes[0]
+        this.cols = matrix.elementsContainer.sizes[1]
+        this.base = matrix
     }
 
     operator fun get(index: Int): Vector<T> {
-        return this.matrix.cash(index).vector()
+        return this.base.cash(index).vector()
     }
 
     operator fun set(value: Vector<T>, index: Int) {
-        val gotten = this.matrix[index].vector()
+        val gotten = this.base[index].vector()
         if (value.size == gotten.size) {
             (0 until gotten.size) {
                 gotten[i] = value[i]

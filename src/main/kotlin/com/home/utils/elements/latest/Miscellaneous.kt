@@ -21,3 +21,9 @@ val index1D = { sizes: IntArray, e: IntArray ->
     val N  = 1 + sizes
     (0 until D).Sum { i -> e[i] * (0..i).Prod(N) }
 }
+
+fun index1D(sizes: IntArray, e: List<Int>): Int {
+    val D  = sizes.size
+    val N  = 1 + sizes
+    return (0 until D).Sum { i -> e[i] * (0..i).Prod(N) }
+}

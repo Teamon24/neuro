@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.LineChart?>
-<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.lineChart.CategoryAxis?>
+<?import javafx.scene.lineChart.LineChart?>
+<?import javafx.scene.lineChart.NumberAxis?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="618.0" prefWidth="943.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <LineChart id="stock-chart" layoutX="65.0" layoutY="29.0" prefHeight="545.0" prefWidth="803.0">
+      <LineChart id="stock-lineChart" layoutX="65.0" layoutY="29.0" prefHeight="545.0" prefWidth="803.0">
         <xAxis>
           <CategoryAxis side="BOTTOM" />
         </xAxis>

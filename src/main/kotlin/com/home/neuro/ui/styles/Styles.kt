@@ -1,99 +1,162 @@
 package com.home.neuro.ui.styles
 
+import com.home.utils.css.Border
 import javafx.geometry.Pos
 import javafx.scene.paint.Color
-import javafx.scene.paint.Paint
+import javafx.scene.paint.Color.*
 import tornadofx.*
 
 class Styles : Stylesheet() {
 
     companion object {
+        val APP_COLOR = c(225, 92, 9)
+
+        val screenWidth = 1920.px
+        val screenHeight = 1920.px
+
+        var dataSetUIImageSize = 0.px
+        var tabAmount = 0
+
         val main by cssclass()
         val separator by cssclass()
         val matrix by cssclass()
-        val neuron by cssclass()
+
+        val neuronNumber by cssclass()
         val weight by cssclass()
+        val weightNeuronNumber by cssclass()
+
+        val headerLeft by cssclass()
+        val headerRight by cssclass()
         val header by cssclass()
+        val dataSetGroup by cssclass()
+
+        val errorChart by cssclass()
     }
 
     init {
-
-        val screenWidth = 1920.px
-        val pxes = 30.px
-
+        val faintGray = c(230, 230, 230, 0.8)
         val sizes = mixin {
             minWidth = screenWidth
         }
 
-        val min = mixin {
-            minHeight = pxes
+        val neuronSize = mixin {
+            minHeight = 40.px
+            minWidth = 40.px
         }
 
-        val defaultBorder = border(5.px, 2.px, c(0, 0, 0, 0.8))
+        val cellMinHeight = 25.px
+        val cellMinWidth = 55.px
+
+        val cellSize = mixin {
+            minHeight = cellMinHeight
+            minWidth = cellMinWidth
+        }
+
+
+        val dataSetUIImageSize = mixin {
+            prefWidth = dataSetUIImageSize
+            prefHeight = dataSetUIImageSize
+        }
+
+        val defaultBorder =
+            border()
+            .width(5.px)
+            .radius(2.px)
+            .get()
+
+        val circleBorder =
+            border()
+                .radius(Int.MAX_VALUE.px)
+                .width(2.px)
+                .color(GRAY - 0.1.a).get()
 
         main {
             +sizes
             label {
-                fontSize = 20.px
+                fontSize = 13.px
             }
+            tabMinWidth = screenWidth / tabAmount / 2
+            tabMinHeight = 2.em
         }
 
-        val faintGray = c(230, 230, 230, 0.5)
-        val blue = c(29, 44, 245, 0.5)
-        val orange = c(225, 92, 9)
-        val color = orange
+        errorChart {
+            minWidth = screenWidth / 4
+            minHeight = screenHeight / 4
 
-        separator {
-            +sizes
-            minHeight = 100.px
-            backgroundColor = colors(color.alpha(0.8))
-            +border(0.px, 0.px, color)
+            maxWidth = screenWidth / 4
+            maxHeight = screenHeight / 4
+
+            legend
+
         }
 
         matrix {
             vgap = 3.px
             hgap = 3.px
             prefWidth = 100.percent
-            alignment = Pos.CENTER
+            alignment = Pos.TOP_LEFT
             padding = box(30.px)
         }
 
         weight {
-            backgroundColor = colors(faintGray)
-            minWidth = 100.px
+            +cellSize
             +defaultBorder
+            alignment = Pos.CENTER
+            +header(faintGray)
+        }
+
+        weightNeuronNumber {
+            +cellSize
+            alignment = Pos.CENTER
+            +header(APP_COLOR)
         }
 
         header {
-            alignment = Pos.CENTER
-            minWidth = 100.px
-            backgroundColor = colors(color.alpha(0.1))
-            +border(2.px, 3.px, color)
+            minWidth = cellMinWidth + 10.px
+            minHeight = cellMinHeight + 10.px
         }
 
-        neuron {
-            +min
-            minWidth = 100.px
+        headerLeft {
+            +cellSize
+            alignment = Pos.CENTER_LEFT
+            +header(APP_COLOR)
+            shape = "M 700 300 L 100 100 L 100 300 L 700 300"
+        }
+
+        headerRight {
+            +cellSize
+            alignment = Pos.BASELINE_RIGHT
+            +header(APP_COLOR)
+            padding = box(2.px)
+            shape = "M 100 300 L 350 300 L 350 400 L 100 300"
+        }
+
+        neuronNumber {
+            +neuronSize
             alignment = Pos.CENTER
-            +defaultBorder
+            +circleBorder
+        }
+
+        dataSetGroup {
+            +dataSetUIImageSize
+            alignment = Pos.CENTER
+            +header(APP_COLOR)
         }
     }
 
-    private fun border(
-        radius: Dimension<Dimension.LinearUnits>,
-        width: Dimension<Dimension.LinearUnits>,
-        color: Color
-    ): CssSelectionBlock {
+    private fun header(color: Color): CssSelectionBlock {
         return mixin {
-            borderRadius += box(radius)
-            borderColor += box(color)
-            borderWidth += box(width)
+            backgroundColor += color set 0.1.a
+            +border().radius(1.px).width(1.px).color(color set 0.15.a).get()
         }
     }
 
-    fun Color.alpha(d: Double): Color {
-        return Color(this.red, this.green, this.blue, d)
+    private fun border(): Border {
+        return Border()
     }
 
-    private fun colors(faintGray: Color): MultiValue<Paint> = MultiValue(arrayOf(faintGray))
+
+
 }
+
+

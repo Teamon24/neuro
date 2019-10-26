@@ -38,7 +38,34 @@ object Thrower {
         if (size != D) throwRex("Indexes amount '$size' is not equal to matrix dimension: '$D'.")
     }
 
+    fun throwIfWrongDimension(indexes: Collection<Int>, sizes: IntArray) {
+        val size = indexes.size
+        val D = sizes.size
+        if (size != D) throwRex("Indexes amount '$size' is not equal to matrix dimension: '$D'.")
+    }
+
+    fun <T> throwIfUnequalSizes(matrix1: Matrix<T>, matrix2: Matrix<T>) {
+        val sizes1 = matrix1.sizes
+        val sizes2 = matrix2.sizes
+        if (sizes1.size != sizes2.size)
+            throwRex("Matrices have different dimentions: 1st - ${sizes1.size}, 2nd - ${sizes2.size}")
+
+        fun str(ints: IntArray) = ints.joinToString(", ", truncated = "")
+
+        if (!sizes1.contentEquals(sizes2))
+            throwRex("Matrices have different sizes: 1st - ${str(sizes1)}, 2nd - ${str(sizes2)}")
+
+    }
+
     fun throwIfAnyNegative(indexes: IntArray) {
+        indexes.find { it < 0 }?.let {
+            val negativeIndexes = indexes.withIndex().filter { it.value < 0 }
+            val negatives = negativeIndexes.joinToString(truncated = "", transform = { "'${it.index}': ${it.value}" })
+            throwRex("Next indexes are negatives: $negatives.")
+        }
+    }
+
+    fun throwIfAnyNegative(indexes: Collection<Int>) {
         indexes.find { it < 0 }?.let {
             val negativeIndexes = indexes.withIndex().filter { it.value < 0 }
             val negatives = negativeIndexes.joinToString(truncated = "", transform = { "'${it.index}': ${it.value}" })
