@@ -22,7 +22,7 @@ import kotlin.random.Random
 val TYPE = Integers
 
 /**
- * Test for [Matrix].
+ * Test for [MatrixND].
  */
 class MatrixTest {
 
@@ -30,11 +30,11 @@ class MatrixTest {
     /**
      * Iterating over all possible dimensions
      * test creates matrix
-     * and checks logic of [Matrix.set] via random indexes.
+     * and checks logic of [MatrixND.set] via random indexes.
      */
     @Test
     fun testSet() {
-        val cartesians = dimensionSizesList(3, 15)
+        val cartesians = dimensionSizesList(3, 5)
 
         for (dimensions in cartesians) {
             for (dimension in dimensions) {
@@ -47,7 +47,7 @@ class MatrixTest {
                 this.set(expectedMatrix, 1, *indexes)
                 actualMatrix.set(1, *indexes)
 
-                val expectedValue = ArrayUtils.get(expectedMatrix, TYPE.clazz(), *indexes)
+                val expectedValue = ArrayUtils.get(expectedMatrix, indexes)
                 val actualValue = actualMatrix.getAt(*indexes)
 
                 Assert.assertTrue(expectedValue == actualValue)
@@ -118,7 +118,7 @@ class MatrixTest {
                 val matrix = matrix(TYPE, sizes)
                 Assert.assertTrue(matrix.isScalar())
                 Assert.assertFalse(matrix.isVector())
-                Assert.assertFalse(matrix.isMatrix(sizes.size))
+                Assert.assertFalse(matrix.hasDimension(sizes.size))
             }
         }
     }
@@ -133,7 +133,7 @@ class MatrixTest {
                 val matrix = matrix(TYPE, sizes)
                 Assert.assertFalse(matrix.isScalar())
                 Assert.assertTrue(matrix.isVector())
-                Assert.assertFalse(matrix.isMatrix(sizes.size))
+                Assert.assertFalse(matrix.hasDimension(sizes.size))
                 printResult(sizes, intArrayOf(), "PASS")
             }
         }
@@ -149,7 +149,7 @@ class MatrixTest {
                 val matrix = matrix(TYPE, sizes)
                 Assert.assertFalse(matrix.isScalar())
                 Assert.assertFalse(matrix.isVector())
-                Assert.assertTrue(matrix.isMatrix(sizes.size))
+                Assert.assertTrue(matrix.hasDimension(sizes.size))
                 printResult(sizes, intArrayOf(), "PASS")
             }
         }
@@ -157,7 +157,7 @@ class MatrixTest {
 
     @Test
     fun testTranspose() {
-        val original = Matrix(Integers, 3, 3, 3, 3)
+        val original = MatrixND(Integers, 3, 3, 3, 3)
         original.set(1, 0, 0, 0, 0)
         original.set(2, 0, 1, 0, 1)
         original.set(3, 0, 2, 0, 2)
@@ -175,12 +175,12 @@ class MatrixTest {
     }
 
 
+    val testSize = 4
+    val testDimension = 4
     @Test
     fun testGet() {
-        val size = 7
-        val dimension = 3
-        println((1L..dimension).fold(1) { acc: Long, _ -> acc*size })
-        val sizes = size.toArray(dimension)
+        println((1L..testDimension).fold(1) { acc: Long, _ -> acc*testSize })
+        val sizes = testSize.toArray(testDimension)
         val matrix = matrix(Integers, sizes)
         val arrayNdim = ArrayUtils.nDimArray(sizes) { 0 }
 
@@ -191,7 +191,7 @@ class MatrixTest {
         println(
             (1..times).map {
                 Timer.nanoCount("matrix", toLog = false) {
-                    allIndexesCombos.forEach { matrix.getAt(it) }
+                    allIndexesCombos.forEach { indexes -> matrix.getAt(indexes) }
                 }
             }
             .map { it.second }
@@ -203,7 +203,7 @@ class MatrixTest {
         println(
             (1..times).map {
                 Timer.nanoCount("array", toLog = false) {
-                    allIndexesCombos.forEach { ArrayUtils.get(arrayNdim, TYPE.clazz(), it, sizes) }
+                    allIndexesCombos.forEach { indexes -> ArrayUtils.get(arrayNdim, indexes.toIntArray()) }
                 }
             }
             .map { it.second }
@@ -213,39 +213,35 @@ class MatrixTest {
 
     @Test
     fun testGet2() {
-        val size = 7
-        val dimension = 3
-        val sizes = size.toArray(dimension)
+        val sizes = testSize.toArray(testDimension)
         val matrix = matrix(Integers, sizes)
         val arrayNdim = ArrayUtils.nDimArray(matrix)
-
         val randomIndexes = arrayListOf<Int>()
-        (0 until dimension) {
-            randomIndexes.add(size.randomExclusive())
+        (0 until testDimension) {
+            randomIndexes.add(testSize.randomExclusive())
         }
-
         println(
             Timer.nanoCount("matrix") {
-                randomIndexes.forEach {
-                    var any: Any = matrix[it]
-                    if (any is Matrix<*>) {
-                        any = any[it]
+                randomIndexes.forEach { indexes ->
+                    var any: Any = matrix[indexes]
+                    if (any is MatrixND<*>) {
+                        any = any[indexes]
                     }
                 }
             }.second
         )
-
-
         println(
             Timer.nanoCount("array") {
                 var array: Array<*> = arrayNdim
                 randomIndexes.forEach {
-                    array = array(arrayNdim)[it]
+                    if (array[0] is Array<*>) {
+                        array = array(array)[it]
+                    }
                 }
             }.second
         )
-
     }
+
 
     private fun array(any: Any?):Array<Array<*>> = any as Array<Array<*>>
 

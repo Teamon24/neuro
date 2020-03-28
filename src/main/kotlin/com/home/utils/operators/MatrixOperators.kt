@@ -1,7 +1,7 @@
 package com.home.utils.operators
 
 import com.google.common.collect.Lists
-import com.home.utils.elements.latest.Matrix
+import com.home.utils.elements.latest.MatrixND
 import com.home.utils.elements.latest.Matrix2D
 import com.home.utils.elements.latest.Vector
 
@@ -48,5 +48,5 @@ operator fun<T> Matrix2D<T>.times(matrix: Matrix2D<T>): Matrix2D<T> {
     return result
 }
 
-fun <T> Matrix<T>.allIndexesCombos(): List<List<Int>> = Lists.cartesianProduct(sizes.map { (0 until it).toList() })
+fun <T> MatrixND<T>.allIndexesCombos(): List<List<Int>> = Lists.cartesianProduct(sizes.map { (0 until it).toList() })
 fun allRangeCombos(sizes: IntArray): List<List<Int>> = Lists.cartesianProduct(sizes.map { (1..it).toList() })

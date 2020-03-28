@@ -1,7 +1,7 @@
 package com.home.utils.elements.latest
 
 import com.home.utils.Thrower
-import com.home.utils.functions.Prod
+import com.home.utils.functions.prod
 import com.home.utils.functions.downOn
 import com.home.utils.elements.type.Type
 import com.home.utils.elements.type.Typed
@@ -15,7 +15,7 @@ class ElementsContainer<T>(
 ) : Typed<T>(type) {
 
     var start: Int = 0
-    var end: Int = index1D(this.sizes, this.sizes downOn 1)
+    var end: Int = TO_1D_INDEX(this.sizes, this.sizes downOn 1)
     var elements: ArrayList<T> = ArrayList()
     var hardIndexesCounter = -1;
 
@@ -52,7 +52,7 @@ class ElementsContainer<T>(
         this.hardIndexes[hardIndexesCounter] = index
         var d = this.hardIndexes.size
         val newSizes = this.sizes.dropWhile { --d; d >= 0 }.toIntArray()
-        val p = Prod(newSizes)
+        val p = prod(newSizes)
         val startIndex = this.start + index * p
         val i = this.hardIndexes.size - 1
         val i1 = this.sizes[i] - 1 - index

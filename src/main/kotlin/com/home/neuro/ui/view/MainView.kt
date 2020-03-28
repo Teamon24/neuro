@@ -60,8 +60,7 @@ class MainView(
         }
     }
 
-    private fun chart(name: String) =
-        object : ConsumerLineChart<Int, Double>(name, 50, Int::minus, { i1, i2 -> i1 > i2 }) {}
+    private fun chart(name: String) = object : ConsumerLineChart<Int, Double>(name, 50, Int::minus, { i1, i2 -> i1 > i2 }) {}
 
     private fun TabPane.weightsTab() {
         tab("Weights") {

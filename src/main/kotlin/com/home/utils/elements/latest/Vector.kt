@@ -6,11 +6,11 @@ import com.home.utils.elements.type.Typed
 
 class Vector<T> : Typed<T> {
 
-    val elementsContainer: ElementsContainer<T>
+    private val elementsContainer: ElementsContainer<T>
     val size: Int
 
     constructor(type: Type<T>, size: Int) : super(type) {
-        this.elementsContainer = Matrix(type, 1, size).elementsContainer
+        this.elementsContainer = MatrixND(type, 1, size).elementsContainer
         this.size = size(this.elementsContainer)
     }
 

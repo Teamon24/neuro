@@ -1,18 +1,35 @@
 package com.home.utils
 
-import com.home.utils.elements.latest.Matrix
+import com.home.utils.elements.latest.MatrixND
 import com.home.utils.elements.latest.MatrixType
 import com.home.utils.elements.type.Typed
 import kotlin.reflect.KClass
 
 object Thrower {
 
-    fun throwIf(matrix: Matrix<*>) = TypeStep(matrix)
+    data class TypeStep(val matrix: MatrixND<*>) {
+
+        fun isNot(type: MatrixType) {
+            val typeIsNotCorrect = !type.isCorrect(matrix)
+            if (typeIsNotCorrect) {
+                throw RuntimeException("This is not a '$type'.")
+            }
+        }
+        fun iz(type: MatrixType) {
+            val typeIsCorrect = type.isCorrect(matrix)
+            if (typeIsCorrect) {
+                throw RuntimeException("Type should not be '$type'.")
+            }
+        }
+
+    }
+    
+    fun throwIf(matrix: MatrixND<*>) = TypeStep(matrix)
 
     fun <T : Typed<*>> throwObjectIsNot(kClass: KClass<T>, index: Int): String =
         throwRex("""Object that is under index "$index" is not a $kClass """)
 
-    fun throwIfWrongSize(expectedDimension:Int, matrix: Matrix<*>) {
+    fun throwIfWrongSize(expectedDimension:Int, matrix: MatrixND<*>) {
         val actualDimension = matrix.sizes.size
         if (expectedDimension != actualDimension) {
             throwRex("""Matrix should has dimension = "$expectedDimension". Matrix has - $actualDimension """)
@@ -22,6 +39,22 @@ object Thrower {
     fun throwIfOverBound(index: Int, bound: Int) {
         if (index > bound)
             throwRex("Index '$index' is out of bound '$bound'")
+    }
+
+    fun throwIfAnyOverBound(indexes: IntArray, sizes: IntArray) {
+        throwIfWrongDimension(indexes, sizes)
+        var message = ""
+        indexes.zip(sizes.withIndex()).forEach { (index, numberAndSize) ->
+            val size = numberAndSize.value
+            if(index >= size) {
+                val number = numberAndSize.index
+                message += "Index #$number = ${index} and it is over than size = $size"
+            }
+        }
+        if (message.isNotEmpty()) {
+            throwRex(message)
+        }
+
     }
 
     fun throwIfNegative(index: Int) {
@@ -44,7 +77,7 @@ object Thrower {
         if (size != D) throwRex("Indexes amount '$size' is not equal to matrix dimension: '$D'.")
     }
 
-    fun <T> throwIfUnequalSizes(matrix1: Matrix<T>, matrix2: Matrix<T>) {
+    fun <T> throwIfUnequalSizes(matrix1: MatrixND<T>, matrix2: MatrixND<T>) {
         val sizes1 = matrix1.sizes
         val sizes2 = matrix2.sizes
         if (sizes1.size != sizes2.size)
@@ -91,22 +124,10 @@ object Thrower {
         }
     }
 
+    fun throwIfNotMulitpliable(matrix: MatrixND<*>, other: MatrixND<*>) {
+    }
+
     private fun throwRex(message: String): Nothing = throw RuntimeException(message)
 
 }
 
-data class TypeStep(val matrix: Matrix<*>) {
-    fun isNot(type: MatrixType) {
-        val typeIsNotCorrect = !type.isCorrect(matrix)
-        if (typeIsNotCorrect) {
-            throw RuntimeException("This is not a '$type'.")
-        }
-    }
-
-    fun iz(type: MatrixType) {
-        val typeIsCorrect = type.isCorrect(matrix)
-        if (typeIsCorrect) {
-            throw RuntimeException("Type should not be '$type'.")
-        }
-    }
-}

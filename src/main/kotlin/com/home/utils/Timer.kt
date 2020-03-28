@@ -8,8 +8,9 @@ import java.util.*
  */
 object Timer {
     val map= HashMap<String, Int> ()
+    private const val template = "dd:MM:yyyy hh:mm:ss:SSSSSS"
 
-    fun <T> count(processName: String = "", toLog: Boolean = true, function: () -> T): Pair<T, Date> {
+    fun <Result> count(processName: String = "", toLog: Boolean = true, function: () -> Result): Pair<Result, Date> {
         toLog.ifTrue { println() }
         val name = countProcess(processName)
         val threadName = Thread.currentThread().name
@@ -21,7 +22,7 @@ object Timer {
         return result to DateTimeUtils.between(start, end).toDate()
     }
 
-    fun <T> nanoCount(processName: String = "", toLog: Boolean = true, function: () -> T): Pair<T, Long> {
+    fun <Result> nanoCount(processName: String = "", toLog: Boolean = true, function: () -> Result): Pair<Result, Long> {
         toLog.ifTrue { println() }
         val name = countProcess(processName)
         val threadName = Thread.currentThread().name
@@ -33,12 +34,13 @@ object Timer {
         val logTemplate2 = logTemplate(endDate, threadName, name)
         val between = DateTimeUtils.between(Date(start/ million), endDate)
         toLog.ifTrue {
-            println("$logTemplate2 ended: ${between.format("mm:ss:SSS")}") }
+            println("$logTemplate2 ended: ${between.format("mm:ss:SSS")}")
+        }
         return result to (end - start)
     }
 
     private fun logTemplate(date: Date, threadName: String?, name: String) =
-        "[${date.format("dd:MM:yyyy hh:mm:ss:SSSSSS")}] $threadName: #$name"
+        "[${date.format(template)}] $threadName: #$name"
 
     private fun countProcess(processName: String): String {
         val amount = map[processName]
@@ -46,6 +48,7 @@ object Timer {
         map[processName] = newAmount
         return "${processName}№$newAmount"
     }
+
+    private fun Date.format(pattern: String) = DateTimeUtils.between(Date(0), this).format(pattern)
 }
 
-private fun Date.format(pattern: String) = DateTimeUtils.between(Date(0), this).format(pattern)

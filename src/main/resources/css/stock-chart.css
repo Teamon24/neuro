@@ -1,13 +1,13 @@
 
 .chart-series-line {
     -fx-stroke: rgba(142, 132, 225, 0.68);
-    -fx-stroke-width: 2px;
+    -fx-stroke-width: 1px;
     -fx-effect: null;
 }
 
 .default-color0.chart-line-symbol {
     -fx-background-color: #4465a8;
     -fx-background-radius: 8px;
-    -fx-padding: 5px;
+    -fx-padding: 1px;
 }
 

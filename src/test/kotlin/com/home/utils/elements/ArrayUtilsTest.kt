@@ -1,12 +1,13 @@
 package com.home.utils.elements
 
 import com.home.utils.ArrayUtils
-import com.home.utils.elements.latest.Matrix
+import com.home.utils.elements.latest.MatrixND
 import com.home.utils.elements.type.Integers
 import com.home.utils.operators.allIndexesCombos
 import org.junit.Assert
 import org.junit.Ignore
 import org.junit.Test
+import kotlin.random.Random
 
 class ArrayUtilsTest {
 
@@ -23,22 +24,37 @@ class ArrayUtilsTest {
         val arrayNdim = ArrayUtils.nDimArray(matrix)
         val allIndexesCombos = matrix.allIndexesCombos()
         for (indexes in allIndexesCombos) {
-            val arrayElement = ArrayUtils.get(arrayNdim, TYPE.clazz(), *indexes.toIntArray())
+            val arrayElement = ArrayUtils.get(arrayNdim, indexes.toIntArray())
             val matrixElement = matrix.getAt(indexes)
             Assert.assertEquals(matrixElement, arrayElement)
         }
     }
 
+    @Test fun testGetSizes() {
+        val expected = intArrayOf(2, 3, 4, 5, 6)
+        val array = ArrayUtils.nDimArray(expected) { 0 }
+        val actual = ArrayUtils.getSizes(array)
+        Assert.assertArrayEquals(expected, actual)
+    }
+
+    @Ignore("TEST HAS NOT BEEN FINISHED YET")
+    @Test fun testPrintln() {
+        val expected = intArrayOf(3, 3, 3)
+        val random = Random(12)
+        val array = ArrayUtils.nDimArray(expected) { random.nextInt() }
+        ArrayUtils.println(array)
+    }
+
 }
 
-private fun <T> Matrix<T>.randomInit() {
+private fun <T> MatrixND<T>.randomInit() {
     val allIndexesCombos = this.allIndexesCombos()
     for (indexes in allIndexesCombos) {
         this.setAt(indexes, type.random())
     }
 }
 
-private fun Matrix<Int>.init() {
+private fun MatrixND<Int>.init() {
     var i = 0;
     val allIndexesCombos = this.allIndexesCombos()
     for (indexes in allIndexesCombos) {

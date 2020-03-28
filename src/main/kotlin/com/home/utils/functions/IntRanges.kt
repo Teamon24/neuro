@@ -8,8 +8,8 @@ import kotlin.random.Random
 inline fun<reified T> IntRange.R(arr: Array<T>, op: (T, T) -> T) = this.map { arr[it] }.reduce { acc, next ->  op(acc,next) }
 inline fun<reified T> IntRange.Sum(arr: Array<T>, plus: (T, T)-> T) = this.R(arr, plus)
 inline fun<reified T> IntRange.Sum(underSum: (Int) -> T, plus: (T, T) -> T) = this.R(this.map { underSum(it) }.toTypedArray(), plus)
-inline fun<reified T> IntRange.Prod(arr: Array<T>, times: (T, T)-> T) = this.R(arr, times)
-inline fun<reified T> IntRange.Prod(underProduct: (Int) -> T, times: (T, T)-> T) = this.R(this.map { underProduct(it) }.toTypedArray(), times)
+inline fun<reified T> IntRange.prod(arr: Array<T>, times: (T, T)-> T) = this.R(arr, times)
+inline fun<reified T> IntRange.prod(underProduct: (Int) -> T, times: (T, T)-> T) = this.R(this.map { underProduct(it) }.toTypedArray(), times)
 
 
 /**
@@ -33,13 +33,13 @@ fun Sum(arr: IntArray) = (0 until arr.size).R(arr, Int::plus)
 /**
  * P - Product.
  */
-inline fun IntRange.Prod(underProduct: (Int) -> Int): Int {
+inline fun IntRange.prod(underProduct: (Int) -> Int): Int {
     val underProductValues = this.map { underProduct(it) }
     return this.R(underProductValues.toIntArray(), Int::times)
 }
 
-fun IntRange.Prod(arr: IntArray) = this.R(arr, Int::times)
-fun Prod(arr: IntArray) = (0 until arr.size).R(arr, Int::times)
+fun IntRange.prod(arr: IntArray) = this.R(arr, Int::times)
+fun prod(arr: IntArray) = (arr.indices).R(arr, Int::times)
 
 
 /**

@@ -9,21 +9,21 @@ import com.home.utils.functions.invoke
 class Matrix2D<T> : Typed<T> {
     val rows: Int
     val cols: Int
-    val base: Matrix<T>
+    val base: MatrixND<T>
 
     constructor(type: Type<T>, rows: Int, cols: Int) : super(type) {
         this.rows = rows
         this.cols = cols
-        this.base = Matrix(type, this.rows, this.cols)
+        this.base = MatrixND(type, this.rows, this.cols)
     }
 
     constructor(elementsContainer: ElementsContainer<T>, vararg sizes: Int) : super(elementsContainer.type) {
         this.rows = sizes[0]
         this.cols = sizes[1]
-        this.base = Matrix(type, elementsContainer, *sizes)
+        this.base = MatrixND(type, elementsContainer, *sizes)
     }
 
-    constructor(matrix: Matrix<T>) : super(matrix.type) {
+    constructor(matrix: MatrixND<T>) : super(matrix.type) {
         Thrower.throwIfWrongSize(2, matrix)
         this.rows = matrix.elementsContainer.sizes[0]
         this.cols = matrix.elementsContainer.sizes[1]
